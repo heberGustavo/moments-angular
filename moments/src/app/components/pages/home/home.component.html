@@ -1,1 +1,32 @@
-<h3>Pagina Home</h3>
+<div class="home-container">
+    <h1>Veja o que estão compartilhando</h1>
+    <div class="search-container">
+        <form>
+            <fa-icon [icon]="faSearch"></fa-icon>
+            <input 
+                type="text"
+                placeholder="Ou busque por um momento..."
+                (input)="search($event)"
+            >
+        </form>
+    </div>
+
+    @if (moments.length > 0) {
+        <div class="moments-container">
+            @for (itemMoment of moments; track $index) {
+                <div class="moment">
+                    @if(itemMoment.image){
+                        <img src="{{baseApiUrl}}uploads/{{itemMoment.image}}" alt="{{itemMoment.title}}">
+                    }
+                    <h3>{{itemMoment.title}}</h3>
+                    <p class="date">Em: {{itemMoment.created_at}}</p>
+                    <p>Comentários: {{itemMoment.comments?.length}}</p>
+                    <p><a routerLink="moments/{{itemMoment.id}}">Detalhes</a></p>
+                </div>
+            }
+        </div>
+    } 
+    @else {
+        <h1>Não há momentos cadastrados!</h1>
+    }
+</div>
