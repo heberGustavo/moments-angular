@@ -20,29 +20,35 @@
     <div class="comments">
         <h3>Comentários ({{moment.comments!.length > 0 ? moment.comments!.length : 0 }})</h3>
         @if(moment.comments!.length > 0){
-            @for (item of moment.comments; track $index) {
-                <div class="comment-container">
-                    <p class="comment">{{ item.text}}</p>
-                    <p class="author">
-                        <span>por:</span> {{item.username}}
-                    </p>
-                </div>
-            }
+        @for (item of moment.comments; track $index) {
+        <div class="comment-container">
+            <p class="comment">{{ item.text}}</p>
+            <p class="author">
+                <span>por:</span> {{item.username}}
+            </p>
+        </div>
+        }
         }
         @else {
-            <p>Não há comentários</p>
+        <p>Não há comentários</p>
         }
     </div>
     <div class="comment-form">
         <h3>Deixe um comentário</h3>
-        <form>
+        <form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
                 <label for="text">Comentário:</label>
-                <textarea placeholder="O que você quer comentar?" required></textarea>
+                <textarea formControlName="text" placeholder="O que você quer comentar?" required></textarea>
+                <div *ngIf="text.touched && text.invalid" class="validation-error">
+                    <p *ngIf="text.errors?.['required']">O texto é obrigatório</p>
+                </div>
             </div>
             <div class="form-group">
                 <label for="username">Nome:</label>
-                <textarea placeholder="Digite seu nome" required></textarea>
+                <textarea formControlName="username" placeholder="Digite seu nome" required></textarea>
+                <div *ngIf="username.touched && username.invalid" class="validation-error">
+                    <p *ngIf="username.errors?.['required']">O Nome é obrigatório</p>
+                </div>
             </div>
             <input type="submit" value="Comentar!">
         </form>
